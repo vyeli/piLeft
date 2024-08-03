@@ -2,7 +2,7 @@
 pragma solidity ^0.8.10;
 
 interface IPiLeftPair {
-    function initialize(address, address) external;
+    function initialize(address, address, address) external;
 
     function getReserves()
         external

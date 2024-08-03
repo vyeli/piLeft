@@ -26,7 +26,7 @@ contract PiLeftPair is ERC20, Math {
     using UQ112x112 for uint224;
 
     uint256 constant MINIMUM_LIQUIDITY = 1000;
-
+    address coreContract;
     address public token0;
     address public token1;
 
@@ -53,6 +53,10 @@ contract PiLeftPair is ERC20, Math {
         uint256 amount1Out,
         address indexed to
     );
+    modifier onlyCore(){
+        require(msg.sender == coreContract, "only core");
+        _;
+    }
 
     modifier nonReentrant() {
         require(!isEntered);
@@ -63,17 +67,20 @@ contract PiLeftPair is ERC20, Math {
         isEntered = false;
     }
 
-    constructor() ERC20("PiLeft Pair", "PILEFT", 18) {}
+    constructor(address core) ERC20("PiLeft Pair", "PILEFT", 18) {
+        coreContract = core;
+    }
 
-    function initialize(address token0_, address token1_) public {
+    function initialize(address token0_, address token1_, address core) public {
         if (token0 != address(0) || token1 != address(0))
             revert AlreadyInitialized();
 
         token0 = token0_;
         token1 = token1_;
+        coreContract = core;
     }
 
-    function mint(address to) public returns (uint256 liquidity) {
+    function mint(address to) public onlyCore() returns (uint256 liquidity) {
         (uint112 reserve0_, uint112 reserve1_, ) = getReserves();
         uint256 balance0 = IERC20(token0).balanceOf(address(this));
         uint256 balance1 = IERC20(token1).balanceOf(address(this));
@@ -101,6 +108,7 @@ contract PiLeftPair is ERC20, Math {
 
     function burn(address to)
         public
+        onlyCore()
         returns (uint256 amount0, uint256 amount1)
     {
         uint256 balance0 = IERC20(token0).balanceOf(address(this));
@@ -131,7 +139,7 @@ contract PiLeftPair is ERC20, Math {
         uint256 amount1Out,
         address to,
         bytes calldata data
-    ) public nonReentrant {
+    ) public onlyCore() nonReentrant {
         if (amount0Out == 0 && amount1Out == 0)
             revert InsufficientOutputAmount();
 
@@ -176,7 +184,7 @@ contract PiLeftPair is ERC20, Math {
         emit Swap(msg.sender, amount0Out, amount1Out, to);
     }
 
-    function sync() public {
+    function sync() public onlyCore() {
         (uint112 reserve0_, uint112 reserve1_, ) = getReserves();
         _update(
             IERC20(token0).balanceOf(address(this)),

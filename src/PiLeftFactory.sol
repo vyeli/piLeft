@@ -15,13 +15,20 @@ contract PiLeftFactory {
         address pair,
         uint256
     );
-    
+    modifier onlyCore(){
+        require(msg.sender == coreContract, "only core");
+        _;
+    }
     // token0 token1 => pair address
     mapping(address => mapping(address => address)) public pairs;
     address[] public allPairs;
-
+    address public coreContract;
+    function setCore(address core) public {
+        coreContract = core;
+    }
     function createPair(address tokenA, address tokenB)
         public
+        onlyCore()
         returns (address pair)
     {
         if (tokenA == tokenB) revert IdenticalAddresses();
@@ -40,7 +47,7 @@ contract PiLeftFactory {
             pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
 
-        IPiLeftPair(pair).initialize(token0, token1);
+        IPiLeftPair(pair).initialize(token0, token1,coreContract);
 
         pairs[token0][token1] = pair;
         pairs[token1][token0] = pair;
