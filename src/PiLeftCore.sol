@@ -36,6 +36,7 @@ contract FragmentedSwapExchange {
 
     event SwapInitiated(bytes32 indexed swapId, address indexed initiator);
     event SwapExecuted(bytes32 indexed swapId, address indexed initiator, uint256 amountIn, uint256 amountOut);
+    constructor(){}
 
     function initiateSwap(bytes memory encryptedData, uint256 operation) external {
         bytes32 swapId = keccak256(abi.encode(encryptedData, msg.sender, block.timestamp,operation));
@@ -84,6 +85,11 @@ contract FragmentedSwapExchange {
         require(swap.initiator == msg.sender, "Only initiator can execute swap");
         require(swap.timestamp < block.timestamp,"Same block execution");
         require(swap.operation == 2, "Not a burn operation");
+        (address token1, address token2,uint256 amount, PermitData memory params) = decryptBurnData(swap.encryptedData,decryptionKey);
+        address pair = PiLeftLibrary.pairFor(factoryAddress,token1,token2);
+        IERC20Permit(pair).permit(params.owner,params.spender,params.value,params.deadline,params.v,params.r,params.s);
+        IERC20(pair).transferFrom(msg.sender, pair, amount);
+        IPiLeftPair(pair).burn(msg.sender);
     }
 
     // Implement decryption logic
@@ -93,6 +99,6 @@ contract FragmentedSwapExchange {
     function decryptMintData(bytes memory encryptedData, bytes memory decryptionKey) internal pure returns(address token1, address token2, uint256 amount1,uint256 amount2, PermitData memory params,PermitData memory params2){
         // Implement your decryption logic here
     }
-
+    function decryptBurnData(bytes memory encryptedData, bytes memory decryptionKey) internal pure returns(address token1, address token2,uint256 amount, PermitData memory params){}
     // Other necessary functions (create pair, add liquidity, etc.)
 }
