@@ -67,8 +67,7 @@ contract PiLeftPair is ERC20, Math {
         isEntered = false;
     }
 
-    constructor(address core) ERC20("PiLeft Pair", "PILEFT", 18) {
-        coreContract = core;
+    constructor() ERC20("PiLeft Pair", "PILEFT", 18) {
     }
 
     function initialize(address token0_, address token1_, address core) public {
