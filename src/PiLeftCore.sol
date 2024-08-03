@@ -11,7 +11,7 @@ import {IUltraVerifier} from "./interfaces/IUltraVerifier.sol";
 
 error InvalidProof();
 
-contract FragmentedSwapExchange {
+contract PiLeftCore {
     using ECDSA for bytes32;
 
     struct ProofPerUser {
