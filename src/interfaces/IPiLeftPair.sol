@@ -27,5 +27,5 @@ interface IPiLeftPair {
         uint256,
         address,
         bytes calldata
-    ) external;
+    ) external returns(uint256);
 }
