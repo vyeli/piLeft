@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.10;
 
-import "./interfaces/PiLeftFactory.sol";
-import "./interfaces/PiLeftPair.sol";
+import "./interfaces/IPiLeftFactory.sol";
+import "./interfaces/IPiLeftPair.sol";
 import "./PiLeftLibrary.sol";
 
 contract PiLeftRouter {
