@@ -28,7 +28,6 @@ contract PiLeftFactory {
     }
     function createPair(address tokenA, address tokenB)
         public
-        onlyCore()
         returns (address pair)
     {
         if (tokenA == tokenB) revert IdenticalAddresses();

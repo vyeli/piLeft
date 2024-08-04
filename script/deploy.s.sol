@@ -7,9 +7,9 @@ import "forge-std/console.sol";
 import {PiLeftCore} from "../src/PiLeftCore.sol";
 import {PiLeftPair} from "../src/PiLeftPair.sol";
 import {PiLeftFactory} from "../src/PiLeftFactory.sol";
-
+import {ERC20Mock} from "../src/mocks/ERC20PermitMock.sol";
 // $ source .env      # This is to store the environmental variables in the shell session
-// $ forge script script/deploy.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast --verify -vvvv
+// $ forge script script/deploy.s.sol --rpc-url $SCROLL_SEPOLIA_RPC --broadcast --verify -vvvv
 
 contract DeployScript is Script {
     address token1;
@@ -18,9 +18,13 @@ contract DeployScript is Script {
     uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
     address public noirVerifier = vm.envAddress("VERIFIER_ADDRESS");
 
-    function deploy() public {
+    function run() external {
+        vm.startBroadcast(deployerPrivateKey);
+        token1 = address(new ERC20Mock(0x7aA5149B547Be9Ec4Ed8A7f515d5a6513c13F090,10 ether,"Bitcoin","BTC",18));
+        token2 = address(new ERC20Mock(0x7aA5149B547Be9Ec4Ed8A7f515d5a6513c13F090,10 ether,"Wrapped Ethereum","WETH",18));
+        console.log("Mock contracts are: ",token1,token2);
         // Deploy the PiLeftCore contract
-        PiLeftCore core = new PiLeftCore(noirVerifier);
+        PiLeftCore core = new PiLeftCore();
         
         console.log("PiLeftCore deployed at: ", address(core));
 
@@ -36,6 +40,7 @@ contract DeployScript is Script {
         PiLeftPair pair = PiLeftPair(pairContract);
 
         console.log("PiLeftPair deployed at: ", address(pair));
+        vm.stopBroadcast();
     }
 
 }

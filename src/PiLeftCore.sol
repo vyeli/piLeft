@@ -75,7 +75,7 @@ contract PiLeftCore {
     event MintExecuted(uint256 indexed timeStamp, address indexed initiator, uint256 amount1, uint256 amount2);
     event BurnExecuted(uint256 indexed timeStamp, address indexed initiator, uint256 amount);
 
-    constructor(address _zkVerifier) {
+    function setVerifier (address _zkVerifier) public {
         zkVerifier = IUltraVerifier(_zkVerifier);
     }
 
