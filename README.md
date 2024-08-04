@@ -140,3 +140,5 @@ piLeftFactory : https://sepolia.scrollscan.com/address/0x0bDB1f74AeE623ce9068eE8
 testToken1 : https://sepolia.scrollscan.com/address/0x6F6D6d5f9729a5083AFd01ecE58E43002633D493
 
 testToken2 : https://sepolia.scrollscan.com/address/0x0d475b30d699E755Be692D8a5a33FF302bcc4827
+
+noirVerifier : https://sepolia.scrollscan.com/address/0xb4da7f797d2d6c6F6B5C70db78DeC8c269816d48
