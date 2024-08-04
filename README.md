@@ -1,66 +1,132 @@
-## Foundry
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+# ZK-Powered Fragmented Swap Exchange
 
-Foundry consists of:
+## Introduction
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+This project introduces a novel decentralized exchange (DEX) that leverages the power of Zero-Knowledge (ZK) proofs using Noir, specifically targeting the NAztec (Noir on Scroll) ecosystem. Our DEX implements a unique fragmented swap mechanism, enhancing privacy and security in DeFi transactions.
 
-## Documentation
+Key features:
+- Privacy-preserving swaps using ZK proofs
+- Two-step transaction process for enhanced security
+- Seamless integration with Scroll's L2 scaling solution
+- Designed to meet N**Aztec Noir bounty requirements
 
-https://book.getfoundry.sh/
+By utilizing Noir for ZK proof generation and verification, this project aims to push the boundaries of what's possible in DeFi, offering users a blend of privacy, security, and efficiency. Our implementation specifically targets the bounties offered by N**Aztec, showcasing the potential of ZK technology in creating next-generation DeFi applications on Scroll.
 
-## Usage
+## Overview
 
-### Build
+The ZK-Powered Fragmented Swap Exchange operates on a two-step process for each swap:
 
-```shell
-$ forge build
+1. **Proof Submission**: Users generate and upload a ZK proof to initialize their intent to swap.
+2. **Swap Execution**: Users provide public parameters, the contract verifies the proof, and executes the swap if valid.
+
+This approach not only enhances privacy by keeping sensitive details off-chain but also provides an additional layer of security against front-running and other common DeFi vulnerabilities.
+
+
+Architecture
+1. **Noir Circuits**: Define the logic for ZK proof generation.
+2. **Smart Contracts**: Handle proof verification and swap execution.
+3. **Frontend**: User interface for interacting with the exchange.
+
+## Swap Process
+
+1. **Initiate Swap**:
+- User generates a ZK proof locally.
+- Proof is uploaded to the smart contract.
+
+2. **Execute Swap**:
+- User sends a transaction with public parameters.
+- Smart contract verifies the proof.
+- If valid, the swap is executed.
+
+## Security Considerations
+
+- ZK proofs ensure privacy of sensitive transaction details.
+- Two-step process prevents front-running and enhances security.
+- Smart contract audits are crucial before mainnet deployment.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Disclaimer
+
+This software is in beta. Use at your own risk.
+
+## Contact
+
+For any queries, please open an issue in the GitHub repository.
+
+## Installation
+
+### Foundry (Smart Contracts)
+
+1. Install Foundry if you haven't already:
+   ```
+   curl -L https://foundry.paradigm.xyz | bash
+   ```
+
+2. Install dependencies:
+   ```
+   forge install
+   ```
+
+3. Build the project:
+   ```
+   forge build
+   ```
+
+### Frontend
+
+1. Install Node.js dependencies:
+   ```
+   npm install
+   ```
+
+### NAztec - Noir on Scroll
+
+1. Install Noirup:
+   ```
+   curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
+   ```
+
+2. Install the latest version of Noir:
+   ```
+   noirup
+   ```
+
+3. Compile the Noir circuit:
+   ```
+   nargo compile
+   ```
+
+### Smart Contracts
+
+Deploy contracts using Foundry:
+```
+forge script script/DeployContracts.s.sol --rpc-url <your_rpc_url> --private-key <your_private_key>
 ```
 
-### Test
+### Frontend
 
-```shell
-$ forge test
+Start the development server:
+```
+npm run dev
 ```
 
-### Format
+Open your browser and navigate to `http://localhost:3000`
 
-```shell
-$ forge fmt
+### Generating ZK Proofs
+
+Navigate to the Noir circuit directory and generate a proof:
+```
+cd circuits
+nargo prove my_proof
 ```
 
-### Gas Snapshots
-
-```shell
-$ forge snapshot
 ```
 
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
