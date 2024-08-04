@@ -132,7 +132,11 @@ nargo prove my_proof
 ## Deployed contract addresses
 
 piLeftCore : https://sepolia.scrollscan.com/address/0xd33ccb833C42431b14687228377872C683244502
+
 piLeftPair1 : https://sepolia.scrollscan.com/address/0xa30b0c294a2df702760eaf293a4e9a97eb36d93f#code
+
 piLeftFactory : https://sepolia.scrollscan.com/address/0x0bDB1f74AeE623ce9068eE828F9660aFACcD9A61
+
 testToken1 : https://sepolia.scrollscan.com/address/0x6F6D6d5f9729a5083AFd01ecE58E43002633D493
+
 testToken2 : https://sepolia.scrollscan.com/address/0x0d475b30d699E755Be692D8a5a33FF302bcc4827
